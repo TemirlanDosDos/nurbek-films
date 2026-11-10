@@ -6,7 +6,7 @@ Independent local WebStorm project. The AITU project is unchanged.
 ## Development
 Run `npm run dev` in WebStorm. Local address: http://127.0.0.1:4175
 No dependencies are required; Node.js is sufficient.
-`npm run check` checks JavaScript syntax. GitHub Pages deploys public/ after a successful check on each push to main.
+`npm run check` checks JavaScript syntax. GitHub Pages builds and deploys dist/ on each push to main. Styles, scripts, translations and the catalogue use content-versioned filenames so returning visitors receive matching updates.
 `npm run build` creates dist/ for other static hosting; vercel.json is retained as an alternative deployment configuration.
 
 ## Design
