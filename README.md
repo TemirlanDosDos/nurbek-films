@@ -1,41 +1,46 @@
-# CutMedia — Real Estate Films
+# CutMedia — Content studio
+Live: https://temirlandosdos.github.io/nurbek-films/
 
-Separate local portfolio project. AITU was not modified.
+Independent local WebStorm project. The AITU project is unchanged.
 
-## Run in WebStorm
-
-Open this directory. Run the `dev` script in package.json, or `npm run dev`.
-Local address: http://127.0.0.1:4175
+## Development
+Run `npm run dev` in WebStorm. Local address: http://127.0.0.1:4175
 No dependencies are required; Node.js is sufficient.
+`npm run check` checks JavaScript syntax. GitHub Pages deploys public/ after a successful check on each push to main.
+`npm run build` creates dist/ for other static hosting; vercel.json is retained as an alternative deployment configuration.
 
-`npm run check` checks JavaScript syntax. `npm run build` copies public assets to dist.
-Vercel settings are in vercel.json.
+## Design
+Distinct section colours, numbered headings and sticky navigation:
+- Hero: lime.
+- Portfolio: violet.
+- Services: warm orange.
+- Team: blue.
+- Contact: coral.
 
-## Content
+English is the default. The language switch preserves the preference locally.
+Copy and translations live in index.html and i18n.js. Page interactions live in app.js.
+WhatsApp links open a draft for +7 705 499 6852; no message is sent automatically.
 
-- English is the default; the RU switch saves the language on this device.
-- WhatsApp: +7 705 499 6852. Clicking opens a draft; it does not send a message.
-- Team: Nurbek (content producer), Malik-Ibn-Anas (cinematographer), Islam (film editor). Portraits are pending; initials are used for now.
-- Base: Astana. Working across Kazakhstan, Russia and Dubai.
-- Brand: CutMedia.
-- Preview pages currently use noindex until actual portfolio material is supplied.
+## Videos
+19 user-supplied videos are web-encoded H.264/AAC MP4s, with fast-start metadata.
+The originals in C:\NurbekVideo are unchanged.
+- 1234.mp4 → media/videos/hero.mp4, the featured first-screen video.
+- дом1.mp4 … дом10.mp4 → property-01.mp4 … property-10.mp4, category property / Real estate / Недвижимость.
+- Видео 3.1.mp4 and Видео3.2.mp4 → content-01.mp4 and content-02.mp4.
+- The six AQ*.mp4 files, sorted by original filename, → content-03.mp4 … content-08.mp4.
 
-## Adding videos
+public/projects.json is the media catalogue (relative paths, category, duration, orientation, size).
+Posters were extracted from the actual supplied videos.
+Gallery displays six videos initially, with category filters and Show more.
+Gallery video data is loaded only when a viewer starts a video.
+Hero playback is muted, pauses outside the viewport/when the tab is hidden, and respects reduced motion.
+Click Watch with sound or a portfolio card for native controls, sound, seeking and fullscreen.
+Closing the player stops playback. Portrait and landscape videos retain their aspect ratio in the player.
 
-1. Put web-optimised H.264 MP4 or WebM videos in public/media, or use direct HTTPS video URLs.
-2. In public/content.js set heroVideo and each project's video URL. Example: ./media/showreel.mp4. Use relative URLs for GitHub Pages subdirectory compatibility.
-3. Set project titles in both content.js and englishProjects in app.js, and update the matching poster images.
-4. The main background plays muted and respects reduced-motion preferences. Clicking opens the full player with sound controls, seeking and fullscreen.
-5. Large source files should be kept out of Git; use a video host or object storage for large finished videos.
-6. Replace the mood-reference notice with factual portfolio copy when real work is present; remove the noindex meta tag when ready for search engines.
+## Team
+Nurbek — content producer.
+Malik-Ibn-Anas — cinematographer.
+Islam — video editor.
+Portraits remain represented by initials until supplied.
+Base: Astana. Work locations: Kazakhstan, Russia and Dubai.
 
-On localhost, the empty video dialog supports previewing a local video without uploading it. These temporary previews are not saved or deployed.
-
-## Photography
-
-Temporary mood references, not the team's work. Images downloaded from Unsplash:
-- https://images.unsplash.com/photo-1600607687920-4e2a09cf159d
-- https://images.unsplash.com/photo-1600210492486-724fe5c67fb0
-- https://images.unsplash.com/photo-1519501025264-65ba15a82390
-
-Replace with the team's approved images/video posters before the final portfolio release.

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "hero",
+    "category": "hero",
+    "number": 0,
+    "video": "./media/videos/hero.mp4",
+    "poster": "./media/posters/hero.jpg",
+    "duration": 18.513021,
+    "landscape": false,
+    "bytes": 4487401
+  },
+  {
+    "id": "content-01",
+    "category": "content",
+    "number": 1,
+    "video": "./media/videos/content-01.mp4",
+    "poster": "./media/posters/content-01.jpg",
+    "duration": 15.48,
+    "landscape": false,
+    "bytes": 2570617
+  },
+  {
+    "id": "content-02",
+    "category": "content",
+    "number": 2,
+    "video": "./media/videos/content-02.mp4",
+    "poster": "./media/posters/content-02.jpg",
+    "duration": 13.48,
+    "landscape": false,
+    "bytes": 2432474
+  },
+  {
+    "id": "property-01",
+    "category": "property",
+    "number": 1,
+    "video": "./media/videos/property-01.mp4",
+    "poster": "./media/posters/property-01.jpg",
+    "duration": 14.314667,
+    "landscape": false,
+    "bytes": 3869893
+  },
+  {
+    "id": "property-02",
+    "category": "property",
+    "number": 2,
+    "video": "./media/videos/property-02.mp4",
+    "poster": "./media/posters/property-02.jpg",
+    "duration": 45.972653,
+    "landscape": false,
+    "bytes": 10903181
+  },
+  {
+    "id": "property-03",
+    "category": "property",
+    "number": 3,
+    "video": "./media/videos/property-03.mp4",
+    "poster": "./media/posters/property-03.jpg",
+    "duration": 20.266667,
+    "landscape": false,
+    "bytes": 7121401
+  },
+  {
+    "id": "property-04",
+    "category": "property",
+    "number": 4,
+    "video": "./media/videos/property-04.mp4",
+    "poster": "./media/posters/property-04.jpg",
+    "duration": 24.1,
+    "landscape": false,
+    "bytes": 8843608
+  },
+  {
+    "id": "property-05",
+    "category": "property",
+    "number": 5,
+    "video": "./media/videos/property-05.mp4",
+    "poster": "./media/posters/property-05.jpg",
+    "duration": 26,
+    "landscape": false,
+    "bytes": 8371474
+  },
+  {
+    "id": "property-06",
+    "category": "property",
+    "number": 6,
+    "video": "./media/videos/property-06.mp4",
+    "poster": "./media/posters/property-06.jpg",
+    "duration": 21.633333,
+    "landscape": false,
+    "bytes": 4921008
+  },
+  {
+    "id": "property-07",
+    "category": "property",
+    "number": 7,
+    "video": "./media/videos/property-07.mp4",
+    "poster": "./media/posters/property-07.jpg",
+    "duration": 30,
+    "landscape": false,
+    "bytes": 9112547
+  },
+  {
+    "id": "property-08",
+    "category": "property",
+    "number": 8,
+    "video": "./media/videos/property-08.mp4",
+    "poster": "./media/posters/property-08.jpg",
+    "duration": 45,
+    "landscape": true,
+    "bytes": 9954431
+  },
+  {
+    "id": "property-09",
+    "category": "property",
+    "number": 9,
+    "video": "./media/videos/property-09.mp4",
+    "poster": "./media/posters/property-09.jpg",
+    "duration": 35.477333,
+    "landscape": false,
+    "bytes": 12848090
+  },
+  {
+    "id": "property-10",
+    "category": "property",
+    "number": 10,
+    "video": "./media/videos/property-10.mp4",
+    "poster": "./media/posters/property-10.jpg",
+    "duration": 34.474667,
+    "landscape": false,
+    "bytes": 9777890
+  },
+  {
+    "id": "content-03",
+    "category": "content",
+    "number": 3,
+    "video": "./media/videos/content-03.mp4",
+    "poster": "./media/posters/content-03.jpg",
+    "duration": 81.407755,
+    "landscape": false,
+    "bytes": 9670461
+  },
+  {
+    "id": "content-04",
+    "category": "content",
+    "number": 4,
+    "video": "./media/videos/content-04.mp4",
+    "poster": "./media/posters/content-04.jpg",
+    "duration": 40.724943,
+    "landscape": false,
+    "bytes": 6360356
+  },
+  {
+    "id": "content-05",
+    "category": "content",
+    "number": 5,
+    "video": "./media/videos/content-05.mp4",
+    "poster": "./media/posters/content-05.jpg",
+    "duration": 18.52,
+    "landscape": false,
+    "bytes": 2654393
+  },
+  {
+    "id": "content-06",
+    "category": "content",
+    "number": 6,
+    "video": "./media/videos/content-06.mp4",
+    "poster": "./media/posters/content-06.jpg",
+    "duration": 13.559048,
+    "landscape": false,
+    "bytes": 2089428
+  },
+  {
+    "id": "content-07",
+    "category": "content",
+    "number": 7,
+    "video": "./media/videos/content-07.mp4",
+    "poster": "./media/posters/content-07.jpg",
+    "duration": 49.52,
+    "landscape": false,
+    "bytes": 9940210
+  },
+  {
+    "id": "content-08",
+    "category": "content",
+    "number": 8,
+    "video": "./media/videos/content-08.mp4",
+    "poster": "./media/posters/content-08.jpg",
+    "duration": 50.873515,
+    "landscape": false,
+    "bytes": 6864854
+  }
+]

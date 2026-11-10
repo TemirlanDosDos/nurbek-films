@@ -1,118 +1,94 @@
-import { content } from './content.js';
 import { t, language, initLanguage } from './i18n.js';
 const $ = (selector) => document.querySelector(selector);
-const safeUrl = (value) => {
-  if (!value) return '';
-  try { const url = new URL(value, document.baseURI); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; } catch { return ''; }
-};
-document.querySelectorAll('[data-brand]').forEach(el => el.textContent = content.name);
-$('#year').textContent = new Date().getFullYear();
-const local = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
-document.querySelectorAll('.local-preview').forEach(el => el.hidden = !local);
-const menu = $('.menu-toggle');
-menu.addEventListener('click', () => {
-  const open = menu.getAttribute('aria-expanded') !== 'true';
-  menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', open ? t('Close menu','Закрыть меню') : t('Open menu','Открыть меню')); $('#mobile-nav').hidden = !open;
+let catalog=[], filter='all', limit=6, currentProject=null;
+const hero=$('#hero-video'), player=$('#film-player'), dialog=$('#film-dialog');
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let heroVisible=true, userPaused=false;
+const time=seconds=>{const total=Math.round(seconds);return Math.floor(total/60)+':'+String(total%60).padStart(2,'0');};
+const category=project=>project.category==='property'?t('Real estate','Недвижимость'):t('Content','Контент');
+const title=project=>project.category==='hero'?t('CutMedia — Featured video','CutMedia — Главный ролик'):category(project)+' / '+String(project.number).padStart(2,'0');
+function syncHero(){
+ const shouldPlay=heroVisible&&!userPaused&&!reducedMotion.matches&&!document.hidden&&!dialog.open;
+ if(shouldPlay) hero.play().catch(()=>{}); else hero.pause();
+}
+function syncPauseLabel(){
+ $('.ambient-toggle').textContent=hero.paused?'▶':'Ⅱ';
+ $('.ambient-toggle').setAttribute('aria-label',hero.paused?t('Play background video','Воспроизвести фоновое видео'):t('Pause background video','Приостановить фоновое видео'));
+}
+$('.ambient-toggle').addEventListener('click',()=>{
+ userPaused=!hero.paused;
+ if(!userPaused) hero.play().catch(()=>{}); else hero.pause();
 });
-const closeMenu = () => { menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', t('Open menu','Открыть меню')); $('#mobile-nav').hidden = true; };
-$('#mobile-nav').querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-const player = $('#film-player');
-const filmDialog = $('#film-dialog');
-let objectUrl = '';
-let resumeAmbient = false;
-const ambient = $('#hero-video');
-const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
-function showDialog(dialog) { dialog.showModal(); document.body.classList.add('modal-open'); }
-function setPlayer(source) {
-  player.pause(); player.removeAttribute('src'); player.load();
-  player.hidden = !source; $('#film-empty').hidden = !!source; $('#video-error').hidden = true;
-  if (source) { player.src = source; player.load(); player.play().catch(() => {}); }
+hero.addEventListener('play',syncPauseLabel);hero.addEventListener('pause',syncPauseLabel);
+hero.addEventListener('error',()=>{$('.ambient-toggle').hidden=true;});
+new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;syncHero();},{threshold:.15}).observe(hero);
+document.addEventListener('visibilitychange',syncHero);
+reducedMotion.addEventListener('change',syncHero);
+function openVideo(project){
+ currentProject=project;
+ $('#film-title').textContent=title(project);
+ $('#film-category').textContent=project.category==='hero'?'CUTMEDIA':category(project);
+ $('#film-duration').textContent=time(project.duration);
+ $('#video-error').hidden=true;$('#video-direct').hidden=true;
+ player.poster=project.poster;player.src=project.video;
+ $('#video-direct').href=project.video;
+ dialog.showModal();document.body.classList.add('modal-open');hero.pause();
+ player.load();player.play().catch(()=>{});
 }
-function openFilm(project) {
-  resumeAmbient = !ambient.paused; ambient.pause();
-  $('#film-title').textContent = project.title;
-  $('#film-description').textContent = project.note || '';
-  showDialog(filmDialog); setPlayer(safeUrl(project.video));
-}
-player.addEventListener('error', () => { if (player.getAttribute('src')) $('#video-error').hidden = false; });
-filmDialog.addEventListener('close', () => {
-  player.pause(); player.removeAttribute('src'); player.load();
-  if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = ''; }
-  $('#local-video').value = '';
-  if (resumeAmbient && !motionPreference.matches) ambient.play().catch(() => {});
+$('[data-open-hero]').addEventListener('click',()=>openVideo(catalog.find(p=>p.category==='hero')||{category:'hero',video:'./media/videos/hero.mp4',poster:'./media/posters/hero.jpg',duration:18.51}));
+$('.close-dialog').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('close',()=>{player.pause();player.removeAttribute('src');player.load();currentProject=null;document.body.classList.remove('modal-open');syncHero();});
+dialog.addEventListener('click',event=>{
+ if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();
+ if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();
 });
-document.querySelectorAll('dialog').forEach(dialog => {
-  dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => document.body.classList.remove('modal-open'));
-  dialog.addEventListener('click', e => { if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close(); } });
+player.addEventListener('error',()=>{if(player.getAttribute('src')){$('#video-error').hidden=false;$('#video-direct').hidden=false;}});
+function renderProjects(){
+ const list=catalog.filter(p=>p.category!=='hero'&&(filter==='all'||p.category===filter));
+ const container=$('#projects');container.replaceChildren();
+ for(const project of list.slice(0,limit)){
+  const article=document.createElement('article');article.className='project';
+  const button=document.createElement('button');button.className='project-media'+(project.landscape?' landscape':'');
+  button.setAttribute('aria-label',t('Play: ','Смотреть: ')+title(project));
+  const img=document.createElement('img');img.src=project.poster;img.alt=title(project);img.loading='lazy';img.decoding='async';
+  const badge=document.createElement('span');badge.className='project-format';badge.textContent=project.landscape?'16:9':'9:16';
+  const play=document.createElement('span');play.className='project-play';play.textContent='▶';play.setAttribute('aria-hidden','true');
+  const duration=document.createElement('span');duration.className='project-duration';duration.textContent=time(project.duration);
+  button.append(img,badge,play,duration);button.addEventListener('click',()=>openVideo(project));
+  const meta=document.createElement('div');meta.className='project-meta';const h3=document.createElement('h3');h3.textContent=title(project);
+  const arrow=document.createElement('span');arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');meta.append(h3,arrow);article.append(button,meta);container.append(article);
+ }
+ $('#work-count').textContent=t('Showing ','Показано ')+Math.min(limit,list.length)+' / '+list.length;
+ $('#show-more').hidden=limit>=list.length;
+ document.querySelectorAll('[data-filter]').forEach(button=>{
+  button.classList.toggle('active',button.dataset.filter===filter);
+  button.setAttribute('aria-pressed',String(button.dataset.filter===filter));
+  const count=catalog.filter(p=>p.category!=='hero'&&(button.dataset.filter==='all'||p.category===button.dataset.filter)).length;
+  button.querySelector('b').textContent=String(count).padStart(2,'0');
+ });
+}
+document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;limit=6;renderProjects();}));
+$('#show-more').addEventListener('click',()=>{limit+=6;renderProjects();});
+const links=[...document.querySelectorAll('.navigation a')];
+const sectionObserver=new IntersectionObserver(entries=>{
+ for(const entry of entries){if(!entry.isIntersecting)continue;
+ links.forEach(link=>{const active=link.dataset.section===entry.target.id;link.classList.toggle('current',active);if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+ }
+},{rootMargin:'-15% 0px -65% 0px',threshold:0});
+document.querySelectorAll('.chapter').forEach(section=>sectionObserver.observe(section));
+new IntersectionObserver(entries=>{if(entries[0].isIntersecting)links.forEach(link=>{link.classList.remove('current');link.removeAttribute('aria-current');});},{threshold:.4}).observe($('.hero'));
+initLanguage(()=>{
+ renderProjects();syncPauseLabel();
+ if(currentProject){$('#film-title').textContent=title(currentProject);$('#film-category').textContent=currentProject.category==='hero'?'CUTMEDIA':category(currentProject);}
+ const message=t('Hello CutMedia! I would like to discuss creating content.','Здравствуйте, CutMedia! Хочу обсудить создание контента.');
+ $('#contact-link').href='https://wa.me/77054996852?text='+encodeURIComponent(message);
 });
-$('#local-video').addEventListener('change', event => {
-  const file = event.target.files[0]; if (!file) return;
-  if (objectUrl) URL.revokeObjectURL(objectUrl);
-  objectUrl = URL.createObjectURL(file); $('#film-title').textContent = file.name;
-  $('#film-description').textContent = t('Local preview — this video is not published.','Локальный просмотр — видео не опубликовано.'); setPlayer(objectUrl);
-});
-document.querySelector('[data-play="hero"]').addEventListener('click', () => openFilm({title:t('Showreel','Шоурил'),video:content.heroVideo}));
-const englishProjects = [
-  {title:'Architecture takes the lead', label:'Architecture', format:'Property film', note:'Volume, light and the character of a place.'},
-  {title:'A space to call home', label:'Interiors', format:'A story of space', note:'The details that make a house feel like home.'},
-  {title:'A different sense of scale', label:'Aerial', format:'A view from above', note:'A place in the context of its city and landscape.'}
-];
-function renderProjects(filter = 'all') {
-  const container = $('#projects'); container.replaceChildren();
-  content.projects.forEach((original, index) => {
-    const project = language === 'en' ? {...original,...englishProjects[index]} : original;
-    if (filter !== 'all' && project.category !== filter) return;
-    const card = document.createElement('article'); card.className = 'project';
-    const button = document.createElement('button'); button.className = 'project-media'; button.setAttribute('aria-label', `${t('Watch','Смотреть')}: ${project.title}`);
-    const image = document.createElement('img'); image.src = safeUrl(project.poster); image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async';
-    const play = document.createElement('span'); play.className = 'project-play'; play.textContent = '▶'; play.setAttribute('aria-hidden','true');
-    const label = document.createElement('span'); label.className = 'project-label'; label.textContent = project.video ? project.label.toUpperCase() : `${project.label.toUpperCase()} / ${t('MOOD REFERENCE','КОНЦЕПЦИЯ')}`;
-    button.append(image, label, play); button.addEventListener('click', () => openFilm(project));
-    const meta = document.createElement('div'); meta.className = 'project-meta';
-    const titleWrap = document.createElement('div'); const title = document.createElement('h3'); title.textContent = project.title;
-    const description = document.createElement('p'); description.textContent = project.format; titleWrap.append(title,description);
-    const number = document.createElement('span'); number.className = 'project-number'; number.textContent = `${String(index+1).padStart(2,'0')} ↗`;
-    meta.append(titleWrap, number); card.append(button,meta); container.append(card);
-  });
-  $('#work-count').textContent = `${String(container.children.length).padStart(2,'0')} / ${t('IN FOCUS','В ФОКУСЕ')}`;
-}
-renderProjects();
-document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('[data-filter]').forEach(el => { el.classList.toggle('active', el === button); el.setAttribute('aria-pressed', String(el === button)); });
-  renderProjects(button.dataset.filter);
-}));
-function renderTeam() {
-  $('#team-members').replaceChildren();
-  if (content.team.length) {
-  $('#team-placeholder').hidden = true;
-  content.team.forEach(person => {
-    const card = document.createElement('article'); card.className = 'member';
-    if (safeUrl(person.photo)) { const photo = document.createElement('img'); photo.src = safeUrl(person.photo); photo.alt = person.name; photo.loading = 'lazy'; card.append(photo); }
-    if (!person.photo) { const portrait = document.createElement('div'); portrait.className = 'member-monogram'; portrait.textContent = person.monogram; portrait.setAttribute('aria-hidden','true'); card.append(portrait); }
-    const title = document.createElement('h3'); title.textContent = language === 'ru' ? person.ruName : person.name;
-    const role = document.createElement('p'); role.textContent = language === 'ru' ? person.ruRole : person.role; card.append(title,role); $('#team-members').append(card);
-  });
-  }
-}
-$('#contact-button').addEventListener('click', () => {
-  const message = t('Hello! I would like to discuss filming a real estate project.','Здравствуйте! Хочу обсудить видеосъёмку объекта недвижимости.');
-  window.open(`https://wa.me/${content.whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
-});
-if (content.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(content.email)) {
-  $('.contact-dialog-body p').textContent = 'Расскажите об объекте, сроках и задаче. Обсудим идею и следующий шаг.';
-  const email = $('#email-link'); email.hidden = false; email.href = `mailto:${content.email}?subject=${encodeURIComponent('Обсудить видеосъёмку объекта')}`;
-}
-if (safeUrl(content.heroVideo)) {
-  ambient.src = safeUrl(content.heroVideo); ambient.hidden = false;
-  const toggle = $('#ambient-toggle'); toggle.hidden = false;
-  $('.reel-caption').textContent = 'ШОУРИЛ КОМАНДЫ';
-  const updateAmbientButton = () => { toggle.textContent = ambient.paused ? '▶' : 'Ⅱ'; toggle.setAttribute('aria-label', ambient.paused ? 'Воспроизвести фоновое видео' : 'Приостановить фоновое видео'); };
-  ambient.addEventListener('play',updateAmbientButton); ambient.addEventListener('pause',updateAmbientButton);
-  toggle.addEventListener('click', () => ambient.paused ? ambient.play().catch(() => {}) : ambient.pause());
-  if (!motionPreference.matches) ambient.play().catch(() => {}); updateAmbientButton();
-  motionPreference.addEventListener('change', e => { if (e.matches) ambient.pause(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) ambient.pause(); });
-}
-initLanguage(() => { closeMenu(); renderProjects(document.querySelector('[data-filter].active')?.dataset.filter || 'all'); renderTeam(); });
+try{
+ const response=await fetch('./projects.json');
+ if(!response.ok)throw new Error('catalog');
+ catalog=await response.json();
+ catalog.sort((a,b)=>(a.category==='property'?0:a.category==='content'?1:2)-(b.category==='property'?0:b.category==='content'?1:2)||a.number-b.number);
+ renderProjects();
+}catch{const status=$('#gallery-status');status.hidden=false;status.textContent=t('The portfolio could not load. Please refresh the page.','Не удалось загрузить портфолио. Обновите страницу.');}
+syncHero();
+
