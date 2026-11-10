@@ -6,3 +6,30 @@
 @media(max-width:380px){h1{font-size:42px}.filters button{padding:9px;gap:8px}.member{grid-template-columns:100px 1fr;gap:0 15px}.member h3{font-size:16px}.contact h2{font-size:40px}.hero-actions{gap:15px}.text-link{font-size:9px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
+
+/* Keep every chapter in the same muted, dark colour family as the hero and portfolio. */
+.navigation a[data-section=services]{--section-color:#c7d89d}
+.navigation a[data-section=team]{--section-color:#a8b8df}
+.navigation a[data-section=contact]{--section-color:#d6afc8}
+.services{--section-color:#c7d89d;--number-text:#242c1c;--chapter-line:#46503b;--section-muted:#adb8a0;background:#20261d;color:#eff2e8}
+.services-grid article{border-color:#47503e;background:#2a312477}
+.service-symbol{color:#c7d89d}
+.service-number{color:#97a887}
+.services-grid p{color:#adb8a0}
+.service-tag{color:#becda6;border-top-color:#47513c}
+.team{--section-color:#a8b8df;--number-text:#20283c;--chapter-line:#3e4a63;--section-muted:#a5afc4;background:#1c2230;color:#eef0f7}
+.member-art{background:#293449;border-color:#46526c}
+.member-art:before,.member-art:after{border-color:#7d90b838}
+.member-art>span{color:#b7c5e3}
+.member-art>b{color:#9baecc}
+.member:nth-child(2) .member-art{background:#30394e}
+.member:nth-child(3) .member-art{background:#273143}
+.member-detail>span,.member p{color:#a8b8df}
+.member small{color:#96a4be}
+.contact{--section-color:#d6afc8;--number-text:#342333;--chapter-line:#584052;background:#2a1e28;color:#f4edf2}
+.contact h2 em{color:#d6afc8}
+.contact p{color:#bba4b6}
+.contact-link{border-color:#71536a;background:#3c2a3877;color:#ead5e3}
+.contact-link:hover{background:#4a3445}
+.contact-link small{color:#bda1b4}
+

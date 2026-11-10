@@ -13,9 +13,9 @@ No dependencies are required; Node.js is sufficient.
 Distinct section colours, numbered headings and sticky navigation:
 - Hero: lime.
 - Portfolio: violet.
-- Services: warm orange.
-- Team: blue.
-- Contact: coral.
+- Services: muted olive with sage accents.
+- Team: dark blue with dusty blue accents.
+- Contact: dark plum with mauve accents.
 
 English is the default. The language switch preserves the preference locally.
 Copy and translations live in index.html and i18n.js. Page interactions live in app.js.
