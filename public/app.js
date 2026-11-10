@@ -3,7 +3,7 @@ import { t, language, initLanguage } from './i18n.js';
 const $ = (selector) => document.querySelector(selector);
 const safeUrl = (value) => {
   if (!value) return '';
-  try { const url = new URL(value, location.origin); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; } catch { return ''; }
+  try { const url = new URL(value, document.baseURI); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; } catch { return ''; }
 };
 document.querySelectorAll('[data-brand]').forEach(el => el.textContent = content.name);
 $('#year').textContent = new Date().getFullYear();
@@ -92,7 +92,7 @@ function renderTeam() {
     if (safeUrl(person.photo)) { const photo = document.createElement('img'); photo.src = safeUrl(person.photo); photo.alt = person.name; photo.loading = 'lazy'; card.append(photo); }
     if (!person.photo) { const portrait = document.createElement('div'); portrait.className = 'member-monogram'; portrait.textContent = person.monogram; portrait.setAttribute('aria-hidden','true'); card.append(portrait); }
     const title = document.createElement('h3'); title.textContent = language === 'ru' ? person.ruName : person.name;
-    const role = document.createElement('p'); role.textContent = person.role; card.append(title,role); $('#team-members').append(card);
+    const role = document.createElement('p'); role.textContent = language === 'ru' ? person.ruRole : person.role; card.append(title,role); $('#team-members').append(card);
   });
   }
 }

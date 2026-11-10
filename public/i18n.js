@@ -38,11 +38,19 @@ const translations = {
   '.contact h2': 'The next story<br>could be <span class="serif">yours.</span>',
   '.contact-bottom p': 'Tell us about your property.<br>Let’s find the story that sets it apart.',
   '#contact-button': 'Let’s talk on WhatsApp <span>↗</span>',
-  '.footer>span:nth-child(3)': '© 2026 · Nurbek & team',
+  '.footer>span:nth-child(3)': '© 2026 · CutMedia',
   '.footer>a:last-child': 'Back to top ↑',
   '.film-empty h3': 'A story is on its way.',
   '.film-empty>p:first-of-type': 'This film has not been added yet. You are exploring the portfolio preview.',
   '.local-hint': 'Local preview only. Your video stays on this computer and is not published.',
+  '#work .eyebrow': '01 / SELECTED WORK',
+  '#approach .eyebrow': '02 / THE APPROACH',
+  '#team .eyebrow': '03 / PEOPLE BEHIND THE FRAME',
+  '.reel-top': 'THE ART OF SEEING DIFFERENTLY',
+  '.reel-bottom .small-label': 'A DIFFERENT PERSPECTIVE',
+  '.reel-foot span:last-child': 'SCROLL TO EXPLORE ↓',
+  '.contact .eyebrow': '<span class="status-dot"></span> LET’S MAKE SOMETHING MEANINGFUL',
+  '.footer>span:nth-child(2)': 'REAL ESTATE. REAL STORIES.',
   '#video-error': 'This video could not be played. Try an H.264 MP4 or WebM file.'
 };
 const originals = new Map();
@@ -68,13 +76,16 @@ export function initLanguage(onChange) {
     const label = document.querySelector('label.local-preview');
     label.childNodes[0].textContent = t('Preview your own video','Посмотреть своё видео');
     if (language === 'ru') {
+      const russianLabels = {'#work .eyebrow':'01 / ИЗБРАННЫЕ РАБОТЫ','#approach .eyebrow':'02 / НАШ ПОДХОД','#team .eyebrow':'03 / ЛЮДИ ЗА КАДРОМ','.reel-top':'ИСКУССТВО ВИДЕТЬ ИНАЧЕ','.reel-bottom .small-label':'НОВЫЙ ВЗГЛЯД','.reel-foot span:last-child':'ЛИСТАЙТЕ ДАЛЬШЕ ↓','.footer>span:nth-child(2)':'МЕСТА. ЛЮДИ. ИСТОРИИ.'};
+      for (const [selector,text] of Object.entries(russianLabels)) document.querySelector(selector).textContent = text;
+      document.querySelector('.contact .eyebrow').innerHTML = '<span class="status-dot"></span> СОЗДАДИМ ИСТОРИЮ СО СМЫСЛОМ';
       document.querySelector('.hero .eyebrow').innerHTML = '<span class="status-dot"></span> НЕЗАВИСИМАЯ КИНОКОМАНДА <span class="hero-edition">КАЗАХСТАН · РОССИЯ · ДУБАЙ</span>';
       document.querySelector('#team .section-heading p').innerHTML = 'База — Астана. Работаем в Казахстане,<br>России и Дубае.';
       document.querySelector('#contact-button').innerHTML = 'Обсудить в WhatsApp <span>↗</span>';
-      document.querySelector('.footer>span:nth-child(3)').textContent = '© 2026 · Нурбек и команда';
+      document.querySelector('.footer>span:nth-child(3)').textContent = '© 2026 · CutMedia';
     }
-    document.title = t('NURBEK — Real Estate Films','NURBEK — фильмы о недвижимости');
-    document.querySelector('meta[name="description"]').content = t('Real estate films by Nurbek and team. Based in Astana. Available in Kazakhstan, Russia and Dubai.','Фильмы о недвижимости. Нурбек и команда. Астана, Казахстан, Россия и Дубай.');
+    document.title = t('CutMedia — Real Estate Films','CutMedia — фильмы о недвижимости');
+    document.querySelector('meta[name="description"]').content = t('Real estate films by CutMedia. Based in Astana. Available in Kazakhstan, Russia and Dubai.','Фильмы о недвижимости от CutMedia. Астана, Казахстан, Россия и Дубай.');
     onChange();
   };
   button.addEventListener('click', () => { language = language === 'en' ? 'ru' : 'en'; try { localStorage.setItem('portfolio-language',language); } catch {} apply(); });
