@@ -82,7 +82,7 @@ initLanguage(()=>{
  if(currentProject){$('#film-title').textContent=title(currentProject);$('#film-category').textContent=currentProject.category==='hero'?'CUTMEDIA':category(currentProject);}
  const message=t('Hello CutMedia! I would like to discuss creating content.','Здравствуйте, CutMedia! Хочу обсудить создание контента.');
  $('#contact-link').href='https://wa.me/77054996852?text='+encodeURIComponent(message);
- const packages={start:t('Start / Targeted launch — 15,000 AED','Старт / Точечный запуск — 15 000 AED'),growth:t('Consistent traffic — 17,000 AED','Системный трафик — 17 000 AED'),scale:t('International scale — 25,000 AED','Международный масштаб — 25 000 AED')};
+ const packages={start:t('Monthly content — 15 videos — 15,000 AED/month','Контент на месяц — 15 видео — 15 000 AED/месяц'),growth:t('Extended content — 20 videos — 20,000 AED/month','Расширенный контент — 20 видео — 20 000 AED/месяц'),scale:t('Scale — 25 videos — from 25,000 AED/month; international shoots quoted separately','Масштаб — 25 видео — от 25 000 AED/месяц; заграничные выезды рассчитываются отдельно')};
  document.querySelectorAll('[data-package]').forEach(link=>{link.href='https://wa.me/77054996852?text='+encodeURIComponent(t('Hello CutMedia! I would like to discuss the package: ','Здравствуйте, CutMedia! Хочу обсудить пакет: ')+packages[link.dataset.package]);});
 });
 try{

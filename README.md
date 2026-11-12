@@ -14,7 +14,6 @@ Distinct section colours, numbered headings and sticky navigation:
 - Hero: lime.
 - Portfolio: violet.
 - Services: muted olive with sage accents.
-- Team: dark blue with dusty blue accents.
 - Contact: dark plum with mauve accents.
 
 English is the default. The language switch preserves the preference locally.
@@ -37,10 +36,16 @@ Hero playback is muted, pauses outside the viewport/when the tab is hidden, and 
 Click Watch with sound or a portfolio card for native controls, sound, seeking and fullscreen.
 Closing the player stops playback. Portrait and landscape videos retain their aspect ratio in the player.
 
-## Team
-Nurbek — content producer.
-Malik-Ibn-Anas — cinematographer.
-Islam — video editor.
-Portraits remain represented by initials until supplied.
+## Service packages
+- Monthly content: 15 videos, up to 3 shooting days in Dubai, AED 15,000/month. Visually highlighted as the core package.
+- Extended content: 20 videos, up to 4 shooting days in Dubai, AED 20,000/month.
+- Scale: 25 videos, up to 5 shooting days in Dubai, from AED 25,000/month.
+International shoots and travel costs are quoted separately.
+Planning and scripts are included but are not counted as finished videos.
+Shared terms cover estimated first edits in 2–3 days after a shooting day, up to 3 revision rounds per video, and shoot hours/video scope agreed in advance.
+Package-specific WhatsApp drafts match the current language, price and video count.
+The team section is not displayed; contact follows the packages and terms.
+
+## Location
 Base: Astana. Work locations: Kazakhstan, Russia and Dubai.
 
