@@ -87,6 +87,8 @@
 .package-price{flex-wrap:wrap;gap:7px}
 .package-price>span{flex-basis:100%;margin-top:3px}
 .package-price>small{font-size:13px;color:#b8c6aa}
+.package-usd{font-size:14px;line-height:1.6;color:#c7d89d;margin:-9px 0 20px}
+.pricing-exchange-note{font-size:11px;line-height:1.8;color:#b8c5aa;margin:20px 0 0;max-width:760px}
 .package-days{font-size:11px;line-height:1.6;color:#d2dfc2;min-height:36px;margin:-5px 0 17px}
 .package-terms{margin-top:40px;border-top:1px solid #4c5940;padding-top:28px}
 .package-terms>h3{font-size:23px;font-weight:500;letter-spacing:-.5px;margin:0 0 24px}
